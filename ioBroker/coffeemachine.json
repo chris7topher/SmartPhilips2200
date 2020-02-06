@@ -1,0 +1,214 @@
+/* -- do not edit following lines - START --
+{
+  "expert": true,
+  "debug": false,
+  "verbose": false
+}
+-- do not edit previous lines - END --*/
+createState('javascript.0.coffeemachine.Power', true,{type: "boolean", role: "switch"});
+createState('javascript.0.coffeemachine.Error', 0,{type: "number", role: "switch"});
+createState('javascript.0.coffeemachine.Trester', 1,{type: "number", role: "switch"});
+createState('javascript.0.coffeemachine.NoWater', 0,{type: "number", role: "switch"});
+createState('javascript.0.coffeemachine.Coffee', 0,{type: "number"});
+createState('javascript.0.coffeemachine.Espresso', 0,{type: "number"});
+createState('javascript.0.coffeemachine.HotWater', 0,{type: "number"});
+createState('javascript.0.coffeemachine.Steam', 0,{type: "number"});
+createState('javascript.0.coffeemachine.AquaClean', 0,{type: "number"});
+createState('javascript.0.coffeemachine.CalcNClean', 0,{type: "number"});
+createState('javascript.0.coffeemachine.CoffeeSize', 0,{type: "number"});
+createState('javascript.0.coffeemachine.WaterSize', 0,{type: "number"});
+createState('javascript.0.coffeemachine.StartPause', 0,{type: "number"});
+
+var onPowerSubscription = on({id: 'javascript.0.coffeemachine.Power', change: 'any'}, handleNewPowerState);
+
+on({id: 'mqtt.0.coffee.status', change: 'any'}, function (obj) {
+    let strState = getState("mqtt.0.coffee.status").val;
+    setPowerState(strState);
+    let state = parseHexString(strState);
+    if(state.length != 19){
+        return;
+    }
+    setStartPause(state);
+    setNoWater(state);
+    setHotWater(state);
+    setSteam(state);
+    setCoffee(state);
+    setEspresso(state);
+    setWaterSize(state);
+    setCoffeeSize(state);
+    setAquaClean(state);
+    setCalcNClean(state);
+    setTrester(state);
+    setError(state);
+});
+
+function handleNewPowerState(obj) {
+    let power = getState("javascript.0.coffeemachine.Power").val;
+    if(power == true){
+        setState("mqtt.0.coffee.command.powerOn", "5");
+        console.log("coffeemachine EIN");
+    } else {
+        setState("mqtt.0.coffee.command.powerOff", "5");
+        console.log("coffeemachine AUS");
+    }
+}
+
+function setPowerState(state){
+    //d5550100000000000000000000000000000626
+    let currState = getState('javascript.0.coffeemachine.Power').val;
+    if(parseInt(state.substring(6,35)) == 0 && currState){
+        console.log("AUS");
+        setState('javascript.0.coffeemachine.Power', false);
+    } else if(!currState){
+        unsubscribe(onPowerSubscription);
+        setState('javascript.0.coffeemachine.Power', true);
+        onPowerSubscription = on({id: 'javascript.0.coffeemachine.Power', change: 'any'}, handleNewPowerState);
+    }
+}
+
+function parseHexString(str) { 
+    var result = [];
+    while (str.length >= 2) { 
+        result.push(parseInt(str.substring(0, 2), 16));
+
+        str = str.substring(2, str.length);
+    }
+    return result;
+}
+
+function setStartPause(state){
+    //d5550000000000000000000000000000070223
+    if(state[16] == 0x07){
+        setState('javascript.0.coffeemachine.StartPause',1);
+    } else {
+        setState('javascript.0.coffeemachine.StartPause',0);
+    }
+}
+
+function setTrester(state){
+    //d5550000000000000000000000000007001c2b
+    if(state[15] == 0x07){
+        setState('javascript.0.coffeemachine.Trester',1);
+    } else {
+        setState('javascript.0.coffeemachine.Trester',0);
+    }
+}
+
+function setError(state){
+    //d555000000000000000000000000003800362e
+    if(state[15] == 0x38){
+        setState('javascript.0.coffeemachine.Error',1);
+    } else {
+        setState('javascript.0.coffeemachine.Error',0);
+    }
+}
+function setCalcNClean(state){
+    //d555000000000000000000000007000000090e -> Blue?
+    //d555000000000000000000003800000000090e -> Orange
+    if(state[13] == 0x07){
+        setState('javascript.0.coffeemachine.CalcNClean',1);
+    } else if(state[12] == 0x38){
+        setState('javascript.0.coffeemachine.CalcNClean',2);
+    } else {
+        setState('javascript.0.coffeemachine.CalcNClean',0);
+    }
+}
+
+function setAquaClean(state){
+    //d5550007070707000000000007000000003232 -> Blue
+    //d5550000000000000000003800000000073319 -> Orange
+    if(state[12] == 0x07){
+        setState('javascript.0.coffeemachine.AquaClean',1);
+    } else if(state[11] == 0x38){
+        setState('javascript.0.coffeemachine.AquaClean',2);
+    } else {
+        setState('javascript.0.coffeemachine.AquaClean',0);
+    }
+}
+
+function setEspresso(state){
+    //d5550007000000003f07000700000000070215    x1
+    //d5550038000000003f07000700000000071725    x2
+    if(state[3] == 0x07){
+        setState('javascript.0.coffeemachine.Espresso',1);
+    } else if(state[3] == 0x38){
+        setState('javascript.0.coffeemachine.Espresso',2);
+    } else {
+        setState('javascript.0.coffeemachine.Espresso',0);
+    }
+}
+
+function setCoffee(state){
+    //d5550000000700003f07000700000000002817	1x
+    //d5550000003800003f07000700000000071519    2x
+    if(state[5] == 0x07){
+        setState('javascript.0.coffeemachine.Coffee',1);
+    } else if(state[5] == 0x38){
+        setState('javascript.0.coffeemachine.Coffee',2);
+    } else {
+        setState('javascript.0.coffeemachine.Coffee',0);
+    }
+}
+
+function setNoWater(state){
+    //d5550000000000000000000000003800003816
+    if(state[14] == 0x38){
+        setState('javascript.0.coffeemachine.NoWater',1);
+    } else {
+        setState('javascript.0.coffeemachine.NoWater',0);
+    }
+}
+
+function setWaterSize(state){
+    // d5550000070000000000000700000000002b0d   1x
+    // d555000007000000000038070000000000233f   2x
+    // d55500000700000000003f0700000000070b25   3x
+    if(state[11] == 0x07 && state[10] == 0){
+        setState('javascript.0.coffeemachine.WaterSize',1);
+    } else if (state[11] == 0x07 && state[10] == 0x38){
+        setState('javascript.0.coffeemachine.WaterSize',2);
+    } else if (state[11] == 0x07 && state[10] == 0x3f){
+        setState('javascript.0.coffeemachine.WaterSize',3);
+    } else {
+        setState('javascript.0.coffeemachine.WaterSize',0);
+    }
+}
+
+function setCoffeeSize(state){
+    // d555003800000000000700070000000007023e   1x
+    // d5550038000000003807000700000000000415   2x
+    // d5550038000000003f07000700000000002e39   3x
+    // d5550000000000000038000700000000071029   4
+    if(state[9] == 0x07 && state[8] == 0){
+        setState('javascript.0.coffeemachine.CoffeeSize',1);
+    } else if (state[9] == 0x07 && state[8] == 0x38){
+        setState('javascript.0.coffeemachine.CoffeeSize',2);
+    } else if (state[9] == 0x07 && state[8] == 0x3f){
+        setState('javascript.0.coffeemachine.CoffeeSize',3);
+    } else if (state[9] == 0x38){
+        setState('javascript.0.coffeemachine.CoffeeSize',4);
+    } else {
+        setState('javascript.0.coffeemachine.CoffeeSize',0);
+    }
+}
+
+function setSteam(state){
+    //d5550000000007000000000000000000072f1b
+    if(state[6] == 0x07){
+        setState('javascript.0.coffeemachine.Steam',1);
+    } else {
+        setState('javascript.0.coffeemachine.Steam',0);
+    }
+}
+
+function setHotWater(state){
+    //d5550000070000000000000000000000070223
+    if(state[4] == 0x07){
+        setState('javascript.0.coffeemachine.HotWater',1);
+    } else {
+        setState('javascript.0.coffeemachine.HotWater',0);
+    }
+}
+
+
+
