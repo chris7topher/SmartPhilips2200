@@ -15,6 +15,7 @@ SoftwareSerial swSer (D5, D6);
 //serial Input
 char serInCommand[39];
 char serInCommand_old[39];
+unsigned long timestampLastSerialMsg;
 byte serInIdx = 0;
 
 //commands
@@ -215,13 +216,19 @@ void loop() {
       serInIdx = 0;
     }
     if(serInIdx > 37){
-      serInCommand[39] = '\0';
+      serInCommand[38] = '\0';
+	  timestampLastSerialMsg = millis();
       if(strcmp(serInCommand, serInCommand_old) != 0){
         client.publish("coffee/status", serInCommand, 38);
         memcpy( serInCommand_old, serInCommand, 39);
       }
       serInIdx = 0;
     }
+  }
+  //Send signal that the coffee machine is off if there is no incomming message for more than 3 seconds
+  if(timestampLastSerialMsg != 0 && millis() - timestampLastSerialMsg > 3000){
+    mqttClient.publish("coffee/status", "d5550100000000000000000000000000000626", 38);
+    timestampLastSerialMsg = 0;
   }
 }
 
