@@ -13,4 +13,4 @@ The repository is divided into two parts:
 **ioBroker:** Example implementation with ioBroker.
 
 The wiring within the coffee machine is as shown in the picture:
-
+![Wiring](https://github.com/chris7topher/SmartPhilips2200/blob/master/images/wiring.png)
