@@ -92,7 +92,7 @@
     "e00002": {
       "tpl": "tplJquiRadio",
       "data": {
-        "oid": "javascript.0.coffeemachine.Power",
+        "oid": "javascript.0.kaffeemaschine.Power",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -162,7 +162,7 @@
     "e00003": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.NoWater",
+        "oid": "javascript.0.kaffeemaschine.NoWater",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -234,7 +234,7 @@
     "e00004": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.Error",
+        "oid": "javascript.0.kaffeemaschine.Error",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -306,7 +306,7 @@
     "e00005": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.Trester",
+        "oid": "javascript.0.kaffeemaschine.Trester",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -450,7 +450,7 @@
     "e00007": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.Coffee",
+        "oid": "javascript.0.kaffeemaschine.Coffee",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -741,7 +741,7 @@
     "e00011": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.Espresso",
+        "oid": "javascript.0.kaffeemaschine.Espresso",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -954,7 +954,7 @@
     "e00014": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.HotWater",
+        "oid": "javascript.0.kaffeemaschine.HotWater",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -1167,7 +1167,7 @@
     "e00017": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.Steam",
+        "oid": "javascript.0.kaffeemaschine.Steam",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -1428,7 +1428,7 @@
     "e00021": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.CoffeeSize",
+        "oid": "javascript.0.kaffeemaschine.CoffeeSize",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -1721,7 +1721,7 @@
     "e00025": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.WaterSize",
+        "oid": "javascript.0.kaffeemaschine.WaterSize",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -1935,7 +1935,7 @@
     "e00028": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.AquaClean",
+        "oid": "javascript.0.kaffeemaschine.AquaClean",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -2149,7 +2149,7 @@
     "e00031": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.CalcNClean",
+        "oid": "javascript.0.kaffeemaschine.CalcNClean",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
@@ -2426,7 +2426,7 @@
     "e00035": {
       "tpl": "tplValueListHtml",
       "data": {
-        "oid": "javascript.0.coffeemachine.StartPause",
+        "oid": "javascript.0.kaffeemaschine.StartPause",
         "g_fixed": true,
         "g_visibility": false,
         "g_css_font_text": false,
