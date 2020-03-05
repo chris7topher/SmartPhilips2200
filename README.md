@@ -3,7 +3,7 @@
 The Project can be used to control a Philips coffee machine via MQTT using an ESP8266 module.
 
 A video for explanation can be found here:
-https://youtu.be/-lNmjJ2Ej40
+https://youtu.be/jhzEMkL5Xek
 
 The repository is divided into two parts:
 
