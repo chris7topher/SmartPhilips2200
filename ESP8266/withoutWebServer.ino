@@ -227,7 +227,7 @@ void loop() {
   }
   //Send signal that the coffee machine is off if there is no incomming message for more than 3 seconds
   if(timestampLastSerialMsg != 0 && millis() - timestampLastSerialMsg > 3000){
-    mqttClient.publish("coffee/status", "d5550100000000000000000000000000000626", 38);
+    client.publish("coffee/status", "d5550100000000000000000000000000000626", 38);
     timestampLastSerialMsg = 0;
   }
 }
